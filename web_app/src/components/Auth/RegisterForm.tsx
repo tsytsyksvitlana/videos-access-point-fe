@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { login, register } from '../../api/auth';
-import type { RegisterData } from '../../types/auth';
+import { useState } from "react";
+import { login, register } from "../../api/auth";
+import type { RegisterData } from "../../types/auth";
 
 const RegisterForm = () => {
   const [form, setForm] = useState<RegisterData>({
-    first_name: '',
-    last_name: '',
-    email: '',
-    password: '',
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,22 +22,22 @@ const RegisterForm = () => {
         email: form.email,
         password: form.password,
       });
-      localStorage.setItem('token', loginResponse.access_token);
-      alert('Registered and logged in successfully!');
+      localStorage.setItem("token", loginResponse.access_token);
+      alert("Registered and logged in successfully!");
     } catch (err) {
       alert(`Registration failed due to an error: ${err}`);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Register</h2>
+    <form onSubmit={handleSubmit} className="space-y-4">
       <input
         name="first_name"
         placeholder="First Name"
         value={form.first_name}
         onChange={handleChange}
         required
+        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <input
         name="last_name"
@@ -45,6 +45,7 @@ const RegisterForm = () => {
         value={form.last_name}
         onChange={handleChange}
         required
+        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <input
         type="email"
@@ -53,6 +54,7 @@ const RegisterForm = () => {
         value={form.email}
         onChange={handleChange}
         required
+        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <input
         type="password"
@@ -61,8 +63,14 @@ const RegisterForm = () => {
         value={form.password}
         onChange={handleChange}
         required
+        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <button type="submit">Register</button>
+      <button
+        type="submit"
+        className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition"
+      >
+        Register
+      </button>
     </form>
   );
 };

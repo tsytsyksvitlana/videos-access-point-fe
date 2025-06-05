@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { login } from "../../api/auth";
-import type { LoginData } from '../../types/auth';
+import type { LoginData } from "../../types/auth";
 
 const LoginForm = () => {
   const [form, setForm] = useState<LoginData>({ email: "", password: "" });
@@ -23,9 +23,9 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+
       <input
         type="email"
         name="email"
@@ -33,6 +33,7 @@ const LoginForm = () => {
         value={form.email}
         onChange={handleChange}
         required
+        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <input
         type="password"
@@ -41,8 +42,14 @@ const LoginForm = () => {
         value={form.password}
         onChange={handleChange}
         required
+        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <button type="submit">Login</button>
+      <button
+        type="submit"
+        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+      >
+        Login
+      </button>
     </form>
   );
 };
