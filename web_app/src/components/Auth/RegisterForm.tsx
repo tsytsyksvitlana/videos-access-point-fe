@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { login, register } from "../../api/auth";
 import type { RegisterData } from "../../types/auth";
 
@@ -23,9 +24,9 @@ const RegisterForm = () => {
         password: form.password,
       });
       localStorage.setItem("token", loginResponse.access_token);
-      alert("Registered and logged in successfully!");
+      toast.success("✅ Registered and logged in successfully!");
     } catch (err) {
-      alert(`Registration failed due to an error: ${err}`);
+      toast.error(`❌ Registration failed due to an error: ${err}`);
     }
   };
 

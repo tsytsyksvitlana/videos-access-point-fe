@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { createVideo } from "../../api/video";
 import type { VideoCreate } from "../../types/video";
 import GenreSelect from "./GenreSelect";
 
 const CreateVideoForm = () => {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState<VideoCreate>({
     title: "",
     description: "",
@@ -22,11 +26,11 @@ const CreateVideoForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await createVideo(form);
-      alert("Video created successfully!");
-      setForm({ title: "", description: "", genre: "", url: "" });
+      const created = await createVideo(form);
+      toast.success("✅ Video created successfully!");
+      navigate(`/videos/${created.id}`);
     } catch {
-      alert("Error while creating video");
+      toast.error("❌ Error while creating video");
     }
   };
 

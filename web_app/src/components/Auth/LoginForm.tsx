@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { login } from "../../api/auth";
 import type { LoginData } from "../../types/auth";
 
@@ -15,10 +16,9 @@ const LoginForm = () => {
     try {
       const response = await login(form);
       localStorage.setItem("token", response.access_token);
-      alert("Logged in!");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      toast.success("✅ Logged in!");
     } catch (err) {
-      setError("Invalid credentials");
+      toast.error("❌ Invalid credentials");
     }
   };
 

@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import CreateVideoForm from "./components/Video/CreateVideoForm";
@@ -22,6 +24,7 @@ function App() {
           <Route path="/videos/:id" element={<VideoByIdPage />} />
           <Route path="/videos/title/:title" element={<VideoByTitlePage />} />
         </Routes>
+        <ToastContainer />
       </div>
     </BrowserRouter>
   );
