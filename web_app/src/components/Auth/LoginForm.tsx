@@ -23,10 +23,10 @@ const LoginForm = () => {
       const user = await getMe();
       setUser(user);
 
-      toast.success("✅ Logged in!");
+      toast.success("Logged in!");
       navigate("/");
     } catch (err) {
-      toast.error("❌ Invalid credentials");
+      toast.error("Invalid credentials");
     }
   };
 

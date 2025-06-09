@@ -27,10 +27,10 @@ const CreateVideoForm = () => {
     e.preventDefault();
     try {
       const created = await createVideo(form);
-      toast.success("✅ Video created successfully!");
+      toast.success("Video created successfully!");
       navigate(`/videos/${created.id}`);
     } catch {
-      toast.error("❌ Error while creating video");
+      toast.error("Error while creating video");
     }
   };
 

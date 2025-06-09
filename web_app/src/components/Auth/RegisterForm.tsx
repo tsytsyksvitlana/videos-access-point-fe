@@ -24,7 +24,7 @@ const RegisterForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (form.password !== confirmPassword) {
-      toast.error("❌ Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -41,10 +41,10 @@ const RegisterForm = () => {
       const user = await getMe();
       setUser(user);
 
-      toast.success("✅ Registered and logged in successfully!");
+      toast.success("Registered and logged in successfully!");
       navigate("/");
     } catch (err) {
-      toast.error("❌ Registration failed");
+      toast.error("Registration failed");
     }
   };
 
