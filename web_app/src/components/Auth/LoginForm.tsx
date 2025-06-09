@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { login } from "../../api/auth";
+import { login, getMe } from "../../api/auth";
 import type { LoginData } from "../../types/auth";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 const LoginForm = () => {
   const [form, setForm] = useState<LoginData>({ email: "", password: "" });
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,7 +19,12 @@ const LoginForm = () => {
     try {
       const response = await login(form);
       localStorage.setItem("token", response.access_token);
+
+      const user = await getMe();
+      setUser(user);
+
       toast.success("✅ Logged in!");
+      navigate("/");
     } catch (err) {
       toast.error("❌ Invalid credentials");
     }
@@ -24,8 +32,6 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-
       <input
         type="email"
         name="email"
@@ -33,7 +39,7 @@ const LoginForm = () => {
         value={form.email}
         onChange={handleChange}
         required
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 border border-gray-300 rounded-md"
       />
       <input
         type="password"
@@ -42,7 +48,7 @@ const LoginForm = () => {
         value={form.password}
         onChange={handleChange}
         required
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 border border-gray-300 rounded-md"
       />
       <button
         type="submit"

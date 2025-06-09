@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { login, register } from "../../api/auth";
+import { login, register, getMe } from "../../api/auth";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import type { RegisterData } from "../../types/auth";
 
 const RegisterForm = () => {
@@ -11,22 +13,38 @@ const RegisterForm = () => {
     password: "",
   });
 
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (form.password !== confirmPassword) {
+      toast.error("❌ Passwords do not match");
+      return;
+    }
+
     try {
       await register(form);
+
       const loginResponse = await login({
         email: form.email,
         password: form.password,
       });
+
       localStorage.setItem("token", loginResponse.access_token);
+
+      const user = await getMe();
+      setUser(user);
+
       toast.success("✅ Registered and logged in successfully!");
+      navigate("/");
     } catch (err) {
-      toast.error(`❌ Registration failed due to an error: ${err}`);
+      toast.error("❌ Registration failed");
     }
   };
 
@@ -38,7 +56,7 @@ const RegisterForm = () => {
         value={form.first_name}
         onChange={handleChange}
         required
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 border rounded-md"
       />
       <input
         name="last_name"
@@ -46,7 +64,7 @@ const RegisterForm = () => {
         value={form.last_name}
         onChange={handleChange}
         required
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 border rounded-md"
       />
       <input
         type="email"
@@ -55,7 +73,7 @@ const RegisterForm = () => {
         value={form.email}
         onChange={handleChange}
         required
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 border rounded-md"
       />
       <input
         type="password"
@@ -64,7 +82,16 @@ const RegisterForm = () => {
         value={form.password}
         onChange={handleChange}
         required
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 border rounded-md"
+      />
+      <input
+        type="password"
+        name="confirmPassword"
+        placeholder="Confirm Password"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        required
+        className="w-full px-4 py-2 border rounded-md"
       />
       <button
         type="submit"
