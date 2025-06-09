@@ -41,7 +41,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-8">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-50 overflow-hidden">
       <h1 className="text-3xl font-bold text-center mb-6">Welcome to Video Access Point 👋</h1>
 
       <div className="space-x-4 mb-8">
@@ -99,21 +99,10 @@ const HomePage = () => {
           </>
         )}
 
-        {filterOption === "byId" && (
+        {(filterOption === "byId" || filterOption === "byTitle") && (
           <input
-            type="number"
-            placeholder="Enter video ID"
-            value={videoId}
-            onChange={(e) => setVideoId(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2"
-            required
-          />
-        )}
-
-        {filterOption === "byTitle" && (
-          <input
-            type="text"
-            placeholder="Enter video title"
+            type={filterOption === "byId" ? "number" : "text"}
+            placeholder={`Enter video ${filterOption === "byId" ? "ID" : "title"}`}
             value={videoId}
             onChange={(e) => setVideoId(e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-4 py-2"

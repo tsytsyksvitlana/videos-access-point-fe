@@ -20,5 +20,5 @@ export const getMe = async (): Promise<UserResponse> => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return res.data;
+  return res.data.user;
 };
